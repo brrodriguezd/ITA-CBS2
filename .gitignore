@@ -6,5 +6,10 @@ python/PlanViz
 tmp_*
 outputs/*
 .idea/*
-map_file/*
+map_file/
 .DS_Store
+.ropeproject/*
+.cache/
+.ropeproject/
+.venv/
+map_file2/

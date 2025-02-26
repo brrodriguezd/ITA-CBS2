@@ -25,7 +25,8 @@ public:
         org_n = agent_num;
         org_m = goal_num;
         n = std::max(org_m, org_n);
-        W = vector<vector<long> >(org_n, vector<long>(org_m, 0));
+        // add dimension for delays
+        W = vector<vector<long> >(org_n, vector<long>(org_m+1, 0));
         mateL = vector<int>(n, -1);
         mateR = vector<int>(n, -1);
         p = vector<int>(n);
@@ -156,7 +157,7 @@ public:
         int n = cost_matrix.size();
         int m = cost_matrix[0].size();
         if (u==-1) {
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++){
                 for (int j = 0; j < m; j++) {
                     if (cost_matrix[i][j] == nullptr) {
                         addEdge(i, j, DHinf);
@@ -164,13 +165,17 @@ public:
                         addEdge(i, j, cost_matrix[i][j]->back().gScore);
                     }
                 }
-        }
-        else {
+                // add delay at 0 cost
+                addEdge(i, m, 0);
+            }
+        } else {
             for (int j=0;j<m; j++)
             {
                 if (cost_matrix[u][j] == nullptr) addEdge(u, j, DHinf);
-                    else addEdge(u, j, cost_matrix[u][j]->back().gScore);
+                else addEdge(u, j, cost_matrix[u][j]->back().gScore);
             }
+            // add delay at 0 cost
+            addEdge(u, m, 0);
         }
     }
 
@@ -179,7 +184,7 @@ public:
         int n = fmin_matrix.size();
         int m = fmin_matrix[0].size();
         if (u==-1) {
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++){
                 for (int j = 0; j < m; j++) {
                     if (fmin_matrix[i][j] == INF7f) {
                         addEdge(i, j, DHinf);
@@ -187,13 +192,17 @@ public:
                         addEdge(i, j, fmin_matrix[i][j]);
                     }
                 }
-        }
-        else {
+                // add delay at 0 cost
+                addEdge(i, m, 0);
+            }
+        }else {
             for (int j=0;j<m; j++)
             {
                 if (fmin_matrix[u][j] == INF7f) addEdge(u, j, DHinf);
                 else addEdge(u, j, fmin_matrix[u][j]);
             }
+            // add delay at 0 cost
+            addEdge(u, m, 0);
         }
     }
 
